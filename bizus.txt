@@ -1,0 +1,14 @@
+npm i styled-components
+npm i @types/styled-components -D
+npm i phosphor-react
+npm i @radix-ui/react-dialog
+npm i @radix-ui/react-radio-group
+
+# https://www.npmjs.com/package/json-server
+
+npm i json-server -D
+npx json-server server.json -p 3000 -w -d 200
+
+npm i react-hook-form zod
+
+npm i @hookform/resolvers

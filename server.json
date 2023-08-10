@@ -1,0 +1,36 @@
+{
+    "transactions": [
+        {
+            "id": 1,
+            "description": "Dev site",
+            "type": "income",
+            "category": "venda",
+            "price": 14000,
+            "createdAt": "2023-08-10T02:17:56.851Z"
+        },
+        {
+            "id": 2,
+            "description": "Dev site",
+            "type": "outcome",
+            "category": "venda",
+            "price": 600,
+            "createdAt": "2023-08-10T02:14:56.851Z"
+        },
+        {
+            "id": 3,
+            "description": "Dev site 2",
+            "type": "income",
+            "category": "venda",
+            "price": 140,
+            "createdAt": "2023-08-10T02:17:56.851Z"
+        },
+        {
+            "id": 4,
+            "description": "Dev site 2",
+            "type": "outcome",
+            "category": "venda",
+            "price": 60,
+            "createdAt": "2023-08-10T02:14:56.851Z"
+        }
+    ]
+}
