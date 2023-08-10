@@ -5,6 +5,8 @@ with node v18.17.0
 run:
 ```
 npm i
+```
+```
 npm run dev:api
 ```
 
