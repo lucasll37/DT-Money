@@ -9,14 +9,15 @@ import {
 
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react';
 import * as z from 'zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { api } from '../../libs/axios';
 
 const newTransactionSchema = z.object({
     description: z.string(),
     price: z.number(),
     category: z.string(),
-    // type: z.enum(['income', 'outcome'])
+    type: z.enum(['income', 'outcome'])
 })
 
 type NewTransactionSFormInputs = z.infer<typeof newTransactionSchema>;
@@ -24,16 +25,29 @@ type NewTransactionSFormInputs = z.infer<typeof newTransactionSchema>;
 export function NewTransactionModal() {
 
     const {
+        control,
         register,
         handleSubmit,
-        formState: { isSubmitting }
+        formState: { isSubmitting },
+        reset
     } = useForm<NewTransactionSFormInputs>({
-        resolver: zodResolver(newTransactionSchema)
+        resolver: zodResolver(newTransactionSchema),
+        defaultValues: {type: 'income'}
     })
 
     async function handleCreateNewTransaction(data: NewTransactionSFormInputs) {
-        console.log(data); // apaga!
-        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        const { category, price, description, type } = data;
+        const response = await api.post("transactions", {
+            category,
+            price,
+            description,
+            type,
+            createdAt: new Date()
+        });
+
+        reset();
+
     }
 
     return (
@@ -66,17 +80,28 @@ export function NewTransactionModal() {
                         {...register('category')}
 
                     />
+                    <Controller
+                        control={control}
+                        name="type"
+                        render={({ field }) => {
+                            return (
+                                <TransactionType
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                >
+                                    <TransactionTypeButton $variant="income" value="income">
+                                        <ArrowCircleUp size={24} />
+                                        Entrada
+                                    </TransactionTypeButton>
+                                    <TransactionTypeButton $variant="outcome" value="outcome">
+                                        <ArrowCircleDown size={24} />
+                                        Saida
+                                    </TransactionTypeButton>
+                                </TransactionType>
+                            )
+                        }}
 
-                    <TransactionType>
-                        <TransactionTypeButton $variant="income" value="income">
-                            <ArrowCircleUp size={24} />
-                            Entrada
-                        </TransactionTypeButton>
-                        <TransactionTypeButton $variant="outcome" value="outcome">
-                            <ArrowCircleDown size={24} />
-                            Saida
-                        </TransactionTypeButton>
-                    </TransactionType>
+                    />
 
                     <button type="submit" disabled={isSubmitting}>Cadastrar</button>
                 </form>
